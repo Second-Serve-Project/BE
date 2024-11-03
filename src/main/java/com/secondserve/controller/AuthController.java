@@ -46,6 +46,7 @@ public class AuthController {
                 .headers(headers)
                 .body(tokenResponse.getAccessToken());
     }
+
     @GetMapping("/gentoken")
     public ResponseEntity<String> genToken(HttpServletRequest request, HttpServletResponse response) {
 
