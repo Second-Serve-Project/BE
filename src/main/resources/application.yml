@@ -1,0 +1,42 @@
+spring:
+  mail:
+    host: smtp.naver.com
+    port: 587
+    username: am030818@naver.com
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            enable: false
+      debug: true
+  datasource:
+    url: jdbc:mariadb://localhost:3306/secondserve
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: root
+    password:
+
+
+  #jpa:
+    #generate-ddl: true
+    #show-sql: true
+    #properties:
+      #hibernate:
+        #dialect: org.hibernate.dialect.MariaDBDialect
+  cache:
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=5m
+
+
+server:
+  port: 8080
+
+
+jwt:
+  issuer: am030818@naver.com
+  secret-key: springboot-project-board-springboot-project-board-springboot-project-board
+  access-expiration: 3600
+  refresh-expiration: 86400
