@@ -79,3 +79,7 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	mainClass = 'com.secondserve.SecondServeApplication'
+}
