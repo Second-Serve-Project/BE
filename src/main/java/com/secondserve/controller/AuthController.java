@@ -32,7 +32,14 @@ public class AuthController {
     private JwtProvider jwtProvider;
     @Autowired
     private CookieUtil cookieUtil;
-
+    
+    
+    @GetMapping()
+    public String test(){
+        String s = "Hello world!";
+        return s;
+    }
+    
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
         Authentication authentication = authService.authenticate(loginRequest);
