@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())  // CSRF 비활성화
                 .authorizeHttpRequests(requests -> requests
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/store/*","/store/**","/auth/login", "/auth/*").permitAll()
+                        .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(withDefaults());
