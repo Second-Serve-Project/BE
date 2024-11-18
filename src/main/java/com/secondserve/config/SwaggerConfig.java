@@ -12,8 +12,7 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         Info info = new Info()
                 .version("v1.0") //버전
-                .title("UpCraft API") //이름
-                .description("업사이클링 플랫폼 API"); //설명
+                .title("Second Serve API");
         return new OpenAPI()
                 .info(info);
     }

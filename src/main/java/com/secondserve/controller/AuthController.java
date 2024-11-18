@@ -34,12 +34,12 @@ public class AuthController {
     private CookieUtil cookieUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         Authentication authentication = authService.authenticate(loginRequest);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         TokenResponseDto tokenResponse = authService.generateToken(userDetails);
 
-        HttpHeaders headers = authService.setResponseHeaderWithToken(tokenResponse.getAccessToken());
+        HttpHeaders headers = authService.setResponseHeaderWithToken(tokenResponse.getAccessToken().trim());
         response.addCookie(tokenResponse.getRefreshCookie());
 
         return ResponseEntity.ok()
