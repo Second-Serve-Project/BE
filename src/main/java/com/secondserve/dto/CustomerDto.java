@@ -1,11 +1,7 @@
 package com.secondserve.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 public class CustomerDto {
     @Getter
@@ -17,5 +13,16 @@ public class CustomerDto {
         private String id;
         @NotBlank
         private String password;
+    }
+    @Getter
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Page {
+        private String name;
+        private double greenScore;
+        private String grade;
+        private Boolean membership;
     }
 }

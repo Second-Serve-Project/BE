@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,7 +25,8 @@ public class RegisterService {
     private final CustomerRepository customerRepository;
     @Autowired
     private final ApplicationEventPublisher eventPublisher;
-    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     public boolean fetchExistById(String id) {
         return customerRepository.existsByCustomerId(id);
     }
@@ -33,7 +35,7 @@ public class RegisterService {
     @Transactional
     public ApiResponse<Void> trySignUp(@Valid CustomerDto.Register registerRequest) {
         String customerId = registerRequest.getId();
-        String encodedPW = encoder.encode(registerRequest.getPassword());
+        String encodedPW = passwordEncoder.encode(registerRequest.getPassword());
 
         // 중복된 ID가 있는지 확인
         if (!fetchExistById(customerId)) {

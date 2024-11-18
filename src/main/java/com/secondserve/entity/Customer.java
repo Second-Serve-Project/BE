@@ -28,7 +28,7 @@ public class Customer {
 
     private String email;
 
-    private Double greenscore;
+    private Double greenScore;
 
     private String grade;
 

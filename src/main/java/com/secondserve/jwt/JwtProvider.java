@@ -44,25 +44,16 @@ public class JwtProvider {
 
     public static String extractToken(String authorizationHeader) {
         if (authorizationHeader.startsWith("Bearer ")) {
-            return authorizationHeader.substring(7);
+            return authorizationHeader.substring(7).trim();
         }
         return null;
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = parseClaims(token); // JWT에서 Claims 추출
-        String userId = claims.get("id", String.class); // Claims에서 사용자 ID 추출
-        String role = claims.get("role", String.class); // Claims에서 역할 추출
-
-        // 사용자의 권한을 담은 리스트 생성
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
-
-        // UserDetails 객체 생성 (사용자 정보 포함)
-        UserDetails userDetails = new User(userId, "", authorities);
-
-        // Authentication 객체 생성
-        return new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+        String customerId = getCustomerId(token); // 토큰에서 사용자 이름 추출
+        return new UsernamePasswordAuthenticationToken(customerId, null, Collections.emptyList()); // 빈 권한 리스트 사용
     }
+
 
     public String generateToken(UserDetails userDetails) {
         Date now = new Date();
@@ -79,7 +70,7 @@ public class JwtProvider {
     }
     public String generateAccessToken(UserDetails userDetails) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + 10); // 1시간 후 만료
+        Date expiryDate = new Date(now.getTime() + (15 * 60 * 1000)); // 15분 후 만료
 
         return Jwts.builder()
                 .signWith(secretKey, Jwts.SIG.HS256)
@@ -108,7 +99,7 @@ public class JwtProvider {
     // 토큰 검증 로직
     public boolean verifyToken(String token) {
         try {
-            Claims claims = parseClaims(token);
+            Claims claims = parseClaims(token.trim());
 
             if (claims == null){return false;}
             if (claims.getExpiration().before(new Date())){
@@ -141,8 +132,9 @@ public class JwtProvider {
     }
 
     // ID 추출
-    public String getId(String token) {
-        Claims claims = parseClaims(token);
+    public String getCustomerId(String token) {
+        String sanitizedToken = token.trim();
+        Claims claims = parseClaims(sanitizedToken);
         return claims.get("id", String.class);
     }
 
@@ -156,4 +148,10 @@ public class JwtProvider {
         return null;
     }
 
+    public String bearerParser(String token){
+        if(token.startsWith("Bearer ")){
+            token = token.substring(7).trim();
+        }
+        return token;
+    }
 }

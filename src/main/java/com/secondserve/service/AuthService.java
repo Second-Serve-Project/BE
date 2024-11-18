@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +32,9 @@ public class AuthService {
     private final CookieUtil cookieUtil;
     private final JwtProvider jwtProvider;
 
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
     public Authentication authenticate(LoginRequest loginRequest) {
-        // 사용자의 이메일과 비밀번호로 인증 토큰 생성
-
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginRequest.getId(), loginRequest.getPassword());
         // AuthenticationManager를 통해 인증 처리
@@ -53,7 +51,7 @@ public class AuthService {
     public TokenResponseDto reissueToken(HttpServletRequest request) {
         String refreshToken = jwtProvider.extractTokenFromCookie(request);
         if (jwtProvider.verifyToken(refreshToken)) {
-            UserDetails userDetails = customUserDetailsService.loadUserByUsername(jwtProvider.getId(refreshToken));
+            UserDetails userDetails = customUserDetailsService.loadUserByUsername(jwtProvider.getCustomerId(refreshToken));
             String accessToken = jwtProvider.generateAccessToken(userDetails);
             return new TokenResponseDto(accessToken, null); // 재발급 시 쿠키는 필요 없을 수도 있음
         }
