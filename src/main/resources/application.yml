@@ -19,8 +19,6 @@ spring:
     username: root
     password: keypass
 
-
-
   #jpa:
     #generate-ddl: true
     #show-sql: true
