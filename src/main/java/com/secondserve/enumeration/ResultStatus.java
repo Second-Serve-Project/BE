@@ -1,4 +1,4 @@
-package com.secondserve.result;
+package com.secondserve.enumeration;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -27,6 +27,8 @@ public enum ResultStatus {
 
     //매장 상태 코드
     STORE_SPEC(200, "SUCCESS_STORE_SPEC"),
+    SUCCESS_STORE_SEARCH(200,"SUCCESS_STORE_SEARCH"),
+
     //상품 관련 로직
     PROD_REGISTER(201, "SUCCESS_PROD_REGISTER"),
     PROD_MODIFY(200, "SUCCESS_PROD_MODIFY"),
@@ -34,7 +36,12 @@ public enum ResultStatus {
     PROD_ALREADY_EXISTS(409, "PRODUCT_ALREADY_EXISTS"),
     PROD_NOT_EXISTS(409, "PRODUCT_NOT_EXISTS"),
 
-    SUCCESS_STORE_SEARCH(200,"SUCCESS_STORE_SEARCH"),
+    // 결제 상태
+    PAY_SUCCESS(200, "SUCCESS_PAYMENT"),
+    PAY_FAILURE(401, "FAILURE_PAYMENT"),
+
+    // 예약 상태
+    APPT_CREATE(201, "NEW_APPT_CREATED"),
     //비인가, 서버 오류 등
     BAD_REQUEST(400, "BAD_REQUEST"),
     UNAUTHORIZED(401, "UNAUTHORIZED"),

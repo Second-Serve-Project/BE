@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 성공</title>
+    <!-- Axios 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<h1>결제가 성공적으로 완료되었습니다!</h1>
+<p>잠시만 기다려주세요...</p>
+
+<script>
+    // URL에서 쿼리스트링 파싱
+    const urlParams = new URLSearchParams(window.location.search);
+    const impUid = urlParams.get("imp_uid"); // 아임포트 결제 고유 ID
+    const merchantUid = urlParams.get("merchant_uid"); // 주문번호
+
+    // 결제 정보 서버로 전송
+    function sendPaymentDataToServer() {
+        axios.post("http://localhost:8080/pay/api/order/payment/complete", {
+            impUid: impUid,
+            merchantUid: merchantUid,
+        }, {
+            headers: {
+                Authorization: "Bearer YOUR_JWT_TOKEN", // JWT 토큰 추가
+                "Content-Type": "application/json",
+            },
+        })
+        .then(function (response) {
+            alert("결제 정보가 성공적으로 처리되었습니다.");
+            location.replace("/orderList"); // 주문 목록 페이지로 이동
+        })
+        .catch(function (error) {
+            console.error("결제 정보 전송 실패:", error);
+            alert("결제 처리 중 에러가 발생했습니다.");
+            location.replace("/");
+        });
+    }
+
+    // 서버로 결제 정보 전송
+    if (impUid && merchantUid) {
+        sendPaymentDataToServer();
+    } else {
+        alert("결제 정보가 유효하지 않습니다.");
+        location.replace("/");
+    }
+</script>
+</body>
+</html>

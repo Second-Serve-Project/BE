@@ -1,7 +1,7 @@
 package com.secondserve.exception;
 
 import com.secondserve.dto.ApiResponse;
-import com.secondserve.result.ResultStatus;
+import com.secondserve.enumeration.ResultStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

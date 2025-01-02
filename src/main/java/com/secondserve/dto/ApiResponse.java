@@ -1,7 +1,7 @@
 package com.secondserve.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.secondserve.result.ResultStatus;
+import com.secondserve.enumeration.ResultStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
