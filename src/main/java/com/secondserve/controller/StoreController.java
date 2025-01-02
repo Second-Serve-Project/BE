@@ -1,9 +1,10 @@
 package com.secondserve.controller;
 
+import com.secondserve.docs.StoreDocs;
 import com.secondserve.dto.ProductDto;
 import com.secondserve.dto.ApiResponse;
 import com.secondserve.dto.StoreDto;
-import com.secondserve.result.ResultStatus;
+import com.secondserve.enumeration.ResultStatus;
 import com.secondserve.service.StoreService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/store")
 @AllArgsConstructor
-public class StoreController {
+public class StoreController implements StoreDocs {
     @Autowired
     private final StoreService storeService;
     @PostMapping("/new")

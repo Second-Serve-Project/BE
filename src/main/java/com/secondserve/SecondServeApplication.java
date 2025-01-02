@@ -9,4 +9,5 @@ public class SecondServeApplication {
     public static void main(String[] args) {
         SpringApplication.run(SecondServeApplication.class, args);
     }
+
 }

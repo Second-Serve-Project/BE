@@ -37,11 +37,16 @@ public class Customer {
     private LocalDate birthday;
 
     private Boolean membership;
+    private Long point;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Receipt> receipts;
 
-    public Customer(String customerId){
+    @OneToMany
+    private List<PaymentEntity> payments;
+
+    public Customer(String customerId, String email){
         this.customerId = customerId;
+        this.email = email;
     }
 }

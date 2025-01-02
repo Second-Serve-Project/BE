@@ -5,26 +5,20 @@ import com.secondserve.entity.Customer;
 import com.secondserve.entity.Product;
 import com.secondserve.entity.Receipt;
 import com.secondserve.entity.Store;
-import com.secondserve.exception.CustomExceptions;
 import com.secondserve.repository.ProductRepository;
 import com.secondserve.repository.ReceiptRepository;
 import com.secondserve.repository.StoreRepository;
-import com.secondserve.result.ResultStatus;
+import com.secondserve.enumeration.ResultStatus;
 import com.secondserve.util.DtoConverter;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.hibernate.metamodel.model.domain.internal.PluralAttributeBuilder.build;
 
 @Service
 @AllArgsConstructor
@@ -127,7 +121,7 @@ public class StoreService {
     public void createReceipt(ProductDto productDto, String token){
         Receipt receipt = Receipt.builder()
                 .store(productDto.getStore())
-                .customer(new Customer("test1"))
+                .customer(new Customer("test1", "test1"))
                 .orderDatetime(LocalDateTime.now())
                 .price(productDto.getPrice())
                 .build();

@@ -19,6 +19,12 @@ spring:
     username: root
     password: keypass
 
+imp:
+  code: imp85340474
+  api:
+    key: 7276428457236882
+    secretkey: WUo76J6jqy8UhQeT7sBGfek2Asoo4d72g8QybVP9oPMdXQlSZ6zspLIb1DIZb6OTPf3Eje1KuZVtSqXp
+
   #jpa:
     #generate-ddl: true
     #show-sql: true
@@ -42,6 +48,11 @@ spring-doc:
 
 jwt:
   issuer: am030818@naver.com
-  secret-key: springboot-project-board-springboot-project-board-springboot-project-board
+  secret: "jfsgkhdsjkweoiruwqejkrfbhnsadkjlfghbwerqewrsdfgdsfagbdf"
   access-expiration: 3600
-  refresh-expiration: 86400
+  refresh-expiration: 8640
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.springframework.security: debug
