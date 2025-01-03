@@ -13,6 +13,7 @@ public class OrderInfoDto {
     private String payMethod;      // 결제 방법 (카드 등)
     private String orderNum;       // 주문 번호
     private String name;           // 상품 이름
+    private String storeName;
     private int amount;            // 결제 금액
     private String phone;          // 구매자 연락처
     private String deliveryAddress1; // 우편번호

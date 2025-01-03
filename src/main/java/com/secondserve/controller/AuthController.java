@@ -1,5 +1,6 @@
 package com.secondserve.controller;
 
+import com.secondserve.docs.AuthDocs;
 import com.secondserve.dto.ApiResponse;
 import com.secondserve.dto.LoginRequest;
 import com.secondserve.dto.TokenResponseDto;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthDocs {
     private final AuthService authService;
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid LoginRequest loginRequest, HttpServletResponse response) {
