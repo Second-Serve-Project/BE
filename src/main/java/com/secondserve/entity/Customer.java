@@ -45,6 +45,9 @@ public class Customer {
     @OneToMany
     private List<PaymentEntity> payments;
 
+    @OneToMany
+    private List<PickUp> pickUps;
+
     public Customer(String customerId, String email){
         this.customerId = customerId;
         this.email = email;

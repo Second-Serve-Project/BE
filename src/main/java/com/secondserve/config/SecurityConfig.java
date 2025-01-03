@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         //.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers("/store/*","/store/**","/login", "/pay/*","/pay/api/order/payment/complete","/signup", "/swagger-ui/**",    // Swagger UI 관련 경로
-                                "/v3/api-docs/**").permitAll()
+                                "/v3/api-docs/**","/pickup/*").permitAll()
                         .anyRequest().authenticated()
                 );
 
