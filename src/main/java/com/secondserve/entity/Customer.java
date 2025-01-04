@@ -42,8 +42,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Receipt> receipts;
 
-    @OneToMany
-    private List<PaymentEntity> payments;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PaymentEntity> payments; // Fix: added mappedBy
+
 
     @OneToMany
     private List<PickUp> pickUps;

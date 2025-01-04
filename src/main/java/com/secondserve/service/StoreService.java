@@ -5,23 +5,28 @@ import com.secondserve.entity.Customer;
 import com.secondserve.entity.Product;
 import com.secondserve.entity.Receipt;
 import com.secondserve.entity.Store;
+import com.secondserve.jwt.JwtUtil;
 import com.secondserve.repository.ProductRepository;
 import com.secondserve.repository.ReceiptRepository;
 import com.secondserve.repository.StoreRepository;
 import com.secondserve.enumeration.ResultStatus;
+import com.secondserve.util.CustomerUtil;
 import com.secondserve.util.DtoConverter;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class StoreService {
     @Autowired
     private final ProductRepository productRepository;
@@ -29,6 +34,9 @@ public class StoreService {
     private final StoreRepository storeRepository;
     @Autowired
     private final ReceiptRepository receiptRepository;
+    @Autowired
+    private final CustomerUtil customerUtil;
+    private final PaymentService paymentService;
     @Transactional
     public ResultStatus registerProduct(ProductDto productDto) {
         long storeId = 1;
@@ -117,6 +125,37 @@ public class StoreService {
         }
         return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
     }
+    public ApiResponse<List<StoreDto.Recent>> getRecentStoreList(String accessToken) {
+        List<Long> storeIds = paymentService.fetchVisitedStoreList(accessToken);
+
+        // 디버깅용 로그
+        System.out.println("Fetched Store IDs: " + storeIds);
+
+        List<Long> uniqueStoreIds = storeIds.stream().distinct().toList();
+        System.out.println("Unique Store IDs: " + uniqueStoreIds);
+
+        List<Store> storeList = storeRepository.findStoresWithIds(uniqueStoreIds);
+
+        List<StoreDto.Recent> storeDtoList = new ArrayList<>();
+        for (Store store : storeList) {
+            StoreDto.Recent storeDto = DtoConverter.convertToDto(store, StoreDto.Recent.class);
+            storeDtoList.add(storeDto);
+        }
+        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+    }
+
+    public ApiResponse<List<StoreDto.Sale>> getSaleStoreList() {
+        List<Store> storeList = storeRepository.findStoreWithSaleTime(LocalTime.now());
+        List<StoreDto.Sale> storeDtoList = new ArrayList<>();
+        for (Store store : storeList) {
+            StoreDto.Sale storeDto = DtoConverter.convertToDto(store, StoreDto.Sale.class);
+            storeDtoList.add(storeDto);
+        }
+
+        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+    }
+
+
     // 결제 성공 후 event로 영수증 생성.
     public void createReceipt(ProductDto productDto, String token){
         Receipt receipt = Receipt.builder()

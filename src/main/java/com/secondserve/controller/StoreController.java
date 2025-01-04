@@ -54,12 +54,22 @@ public class StoreController implements StoreDocs {
         return storeService.getStoreSpec(storeId);
     }
     @GetMapping("/search/address")
-    public ApiResponse<List<StoreDto.Search>> onSaleStore(@RequestParam String address){
+    public ApiResponse<List<StoreDto.Search>> searchByAddress(@RequestParam String address){
         return storeService.getStoreAddressList(address);
     }
     @GetMapping("/search/xy")
-    public ApiResponse<List<StoreDto.Search>> onSaleStore(@RequestParam double lat, @RequestParam double lon){
+    public ApiResponse<List<StoreDto.Search>> searchByGPS(@RequestParam double lat, @RequestParam double lon){
         return storeService.getStoreXYList(lat, lon);
     }
+    @GetMapping("/recent")
+    public ApiResponse<List<StoreDto.Recent>> recentStore(@RequestHeader("Authorization") String accessToken){
+        return storeService.getRecentStoreList(accessToken);
+    }
+    @GetMapping("/sale")
+    public ApiResponse<List<StoreDto.Sale>> onSaleStore(){
+        return storeService.getSaleStoreList();
+    }
+
+
 
 }

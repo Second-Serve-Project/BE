@@ -14,7 +14,7 @@ spring:
             enable: false
       debug: true
   datasource:
-    url: jdbc:mariadb://34.173.122.51:3306/secondserve
+    url: jdbc:mariadb://localhost:3306/secondserve
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: keypass
@@ -48,5 +48,6 @@ jwt:
 
 logging:
   level:
-    org.hibernate.SQL: debug
-    org.springframework.security: debug
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.security: DEBUG

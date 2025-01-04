@@ -16,7 +16,6 @@ public class StoreDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Search{
-        private long id;
         private String name;
         private String category;
         private String backImage;
@@ -41,5 +40,27 @@ public class StoreDto {
         private LocalTime end;
 
         private String rest;
+    }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Recent extends Search{
+        private String name;
+        private String backImage;
+        private Integer like;
+        private String greenScore;
+        private String state;
+        private LocalTime sale; // 할인 시작 시간
+    }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Sale extends Search{
+        private String name;
+        private String backImage;
+        private Integer like;
+        private String greenScore;
     }
 }

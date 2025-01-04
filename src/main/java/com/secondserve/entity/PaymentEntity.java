@@ -19,11 +19,16 @@ public class PaymentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String imp_uid;
+    @Column(name = "imp_uid")
+    private String impUid;
 
+    @Column(name = "cart_id")
     private Long cartId;
+    @Column(name = "store_id")
+    private Long storeId;
 
     private int usedPoint;
+
     private PayStatus payStatus;
 
     @OneToOne
@@ -37,11 +42,13 @@ public class PaymentEntity {
     public static PaymentEntity createPaymentEntity(
             final String imp_uid,
             final Long cartId,
+            final Long storeId,
             final int usedPoint,
             final Customer customer) {
 
         final PaymentEntity payment = PaymentEntity.builder()
-                .imp_uid(imp_uid)
+                .impUid(imp_uid)
+                .storeId(storeId)
                 .cartId(cartId)
                 .usedPoint(usedPoint)
                 .customer(customer)
