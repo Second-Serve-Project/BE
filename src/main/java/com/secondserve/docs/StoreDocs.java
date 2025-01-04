@@ -51,21 +51,20 @@ public interface StoreDocs {
     ApiResponse<List<StoreDto.Search>> searchByAddress(@RequestParam String address);
 
     @Operation(summary = "위치 기반 매장 검색", description = "위도와 경도를 기준으로 매장을 검색합니다.")
-
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "위치 기반 검색 성공")})
     @GetMapping("/search/xy")
     ApiResponse<List<StoreDto.Search>> searchByGPS(@RequestParam double lat, @RequestParam double lon);
-    @Operation(summary = "위치 기반 매장 검색", description = "위도와 경도를 기준으로 매장을 검색합니다.")
+
+    @Operation(summary = "최근 주문 매장 검색", description = "최근 주문했던 매장을 반환합니다.")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "반환 성공")})
+    @GetMapping("/recent")
+    ApiResponse<List<StoreDto.Recent>> recentStore(@RequestHeader("Authorization") String accessToken);
+    @Operation(summary = "세일 중인 매장 검색", description = "현재 세일 중인 매장을 검색합니다.")
 
     @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "위치 기반 검색 성공")})
-    @GetMapping("/search/xy")
-    public ApiResponse<List<StoreDto.Recent>> recentStore(@RequestHeader("Authorization") String accessToken);
-    @Operation(summary = "위치 기반 매장 검색", description = "위도와 경도를 기준으로 매장을 검색합니다.")
-
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "위치 기반 검색 성공")})
-    @GetMapping("/search/xy")
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "반환 성공")})
+    @GetMapping("/sale")
     ApiResponse<List<StoreDto.Sale>> onSaleStore();
 }
