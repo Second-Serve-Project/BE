@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 public class OrderInfoDto {
     private int usedPoint;         // 사용된 포인트
+    private long storeId;         // 매장 식별값
     private String impUid;         // 아임포트 UID
     private String payMethod;      // 결제 방법 (카드 등)
     private String orderNum;       // 주문 번호

@@ -12,6 +12,7 @@ import com.secondserve.entity.PaymentEntity;
 import com.secondserve.enumeration.ResultStatus;
 import com.secondserve.repository.CartRepository;
 import com.secondserve.repository.PaymentRepository;
+import com.secondserve.util.CustomerUtil;
 import com.secondserve.util.DtoConverter;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.request.CancelData;
@@ -44,6 +45,7 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final CartRepository cartRepository;
+    private final CustomerUtil customerUtil;
     @Data
     private class Response{
         private PaymentInfo response;
@@ -137,6 +139,7 @@ public class PaymentService {
         // PaymentEntity 생성 및 저장
         PaymentEntity payment = PaymentEntity.createPaymentEntity(
                 orderInfoDto.getImpUid(),
+                orderInfoDto.getStoreId(),
                 cartId, // cartId 저장
                 orderInfoDto.getUsedPoint(),
                 customer
@@ -196,7 +199,9 @@ public class PaymentService {
         paymentRepository.save(payment);
 
     }
-
+    public List<Long> fetchVisitedStoreList(String accessToken){
+        return paymentRepository.findStoreIdByCustomerId(customerUtil.getCustomerId(accessToken));
+    }
 
 
 
