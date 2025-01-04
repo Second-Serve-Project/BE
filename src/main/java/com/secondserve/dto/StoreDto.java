@@ -45,7 +45,7 @@ public class StoreDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Recent extends Search{
+    public static class Recent{
         private String name;
         private String backImage;
         private Integer like;
@@ -57,7 +57,7 @@ public class StoreDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Sale extends Search{
+    public static class Sale{
         private String name;
         private String backImage;
         private Integer like;
