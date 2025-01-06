@@ -14,7 +14,7 @@ spring:
             enable: false
       debug: true
   datasource:
-    url: jdbc:mysql://35.222.150.45:3306/secondserve
+    url: jdbc:mariadb://35.222.150.45:3306/secondserve
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: keypass
