@@ -16,8 +16,8 @@ spring:
   datasource:
     url: jdbc:mariadb://35.222.150.45:3306/secondserve
     driver-class-name: org.mariadb.jdbc.Driver
-    username: root
-    password: keypass
+    username: pjygcp1
+    password: your_password
 
 imp:
   code: imp85340474
