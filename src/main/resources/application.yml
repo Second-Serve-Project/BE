@@ -14,10 +14,10 @@ spring:
             enable: false
       debug: true
   datasource:
-    url: jdbc:mariadb://35.222.150.45:3306/secondserve
+    url: jdbc:mysql://35.222.150.45:3306/secondserve
     driver-class-name: org.mariadb.jdbc.Driver
-    username: pjygcp1
-    password: your_password
+    username: root
+    password: keypass
 
 imp:
   code: imp85340474
