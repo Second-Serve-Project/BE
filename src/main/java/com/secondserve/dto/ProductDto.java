@@ -13,9 +13,8 @@ import lombok.*;
 @NoArgsConstructor
 public class ProductDto {
     private String name;
-    private int price;
+    private long price;
+    private long salePrice;
     private int remain;
-    private Store store;
-    private double weight;
     private String prodImage;
 }

@@ -14,7 +14,7 @@ spring:
             enable: false
       debug: true
   datasource:
-    url: jdbc:mariadb://localhost:3306/secondserve
+    url: jdbc:mariadb://35.222.150.45:3306/secondserve
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: keypass
@@ -25,11 +25,11 @@ imp:
     key: 7276428457236882
     secretkey: WUo76J6jqy8UhQeT7sBGfek2Asoo4d72g8QybVP9oPMdXQlSZ6zspLIb1DIZb6OTPf3Eje1KuZVtSqXp
 
-  #jpa:
-    #generate-ddl: true
-    #show-sql: true
-    #properties:
-      #hibernate:
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
         #dialect: org.hibernate.dialect.MariaDBDialect
   cache:
     caffeine:
