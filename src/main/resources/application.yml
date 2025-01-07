@@ -18,6 +18,12 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: keypass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
 
 imp:
   code: imp85340474
@@ -25,12 +31,7 @@ imp:
     key: 7276428457236882
     secretkey: WUo76J6jqy8UhQeT7sBGfek2Asoo4d72g8QybVP9oPMdXQlSZ6zspLIb1DIZb6OTPf3Eje1KuZVtSqXp
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MariaDBDialect
+  
 
   cache:
     caffeine:
