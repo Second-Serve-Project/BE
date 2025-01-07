@@ -26,11 +26,12 @@ imp:
     secretkey: WUo76J6jqy8UhQeT7sBGfek2Asoo4d72g8QybVP9oPMdXQlSZ6zspLIb1DIZb6OTPf3Eje1KuZVtSqXp
 
   jpa:
-    generate-ddl: true
-    show-sql: true
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
-        #dialect: org.hibernate.dialect.MariaDBDialect
+        dialect: org.hibernate.dialect.MariaDBDialect
+
   cache:
     caffeine:
       spec: maximumSize=1000,expireAfterWrite=5m
