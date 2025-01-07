@@ -31,6 +31,7 @@ imp:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
+
   cache:
     caffeine:
       spec: maximumSize=1000,expireAfterWrite=5m

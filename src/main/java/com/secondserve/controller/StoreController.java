@@ -4,6 +4,7 @@ import com.secondserve.docs.StoreDocs;
 import com.secondserve.dto.ProductDto;
 import com.secondserve.dto.ApiResponse;
 import com.secondserve.dto.StoreDto;
+import com.secondserve.entity.Store;
 import com.secondserve.enumeration.ResultStatus;
 import com.secondserve.service.StoreService;
 import jakarta.validation.Valid;
@@ -52,6 +53,10 @@ public class StoreController implements StoreDocs {
     @GetMapping("/spec") // 특정 매장 페이지로 이동 후 판매하는 물품 리스트.
     public ApiResponse<StoreDto.Spec> specStore(@RequestParam long storeId) {
         return storeService.getStoreSpec(storeId);
+    }
+    @GetMapping("/products") // 특정 매장 페이지로 이동 후 판매하는 물품 리스트.
+    public ApiResponse<List<ProductDto>> getProducts(@RequestParam long storeId) {
+        return storeService.fetchProducts(new Store(storeId));
     }
     @GetMapping("/search/address")
     public ApiResponse<List<StoreDto.Search>> searchByAddress(@RequestParam String address){

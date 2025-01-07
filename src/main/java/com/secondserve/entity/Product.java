@@ -19,6 +19,8 @@ public class Product {
 
     private long price;  // 가격
 
+    private long salePrice;  // 할인된 가격
+
     private int remain;  // 남은 수량
 
     @ManyToOne(fetch = FetchType.LAZY)

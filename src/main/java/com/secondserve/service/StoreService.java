@@ -56,33 +56,19 @@ public class StoreService {
         productRepository.save(newProduct);
         return ResultStatus.PROD_REGISTER;
     }
-    /*
-    @Transactional
-    public ResultStatus modifyProduct(ProductDto productDto) {
-        long sellerId = storeRepository.findIdBySellerName(productDto.getSellerId());
-        if (!productRepository.existsBySeller_IdAndProductName(sellerId, productDto.getProductName())) {
-            throw new CustomExceptions.DuplicateResourceException("Product not found with name: " + productDto.getProductName());
+
+    public ApiResponse<List<ProductDto>> fetchProducts(Store store) {
+        List<Product> products = productRepository.findByStore(store);
+        List<ProductDto> productDtos = new ArrayList<>();
+        for(Product p : products){
+            productDtos.add(DtoConverter.convertToDto(p, ProductDto.class));
         }
-        Product targetProduct = productRepository.findBySeller_IdAndProductName(sellerId, productDto.getProductName());
-        targetProduct.setProductName(productDto.getProductName());
-        targetProduct.setPrice(productDto.getPrice());
-        targetProduct.setRemain(productDto.getRemain());
-        productRepository.save(targetProduct);
-        return ResultStatus.PROD_MODIFY;
-    }*/
-//    public DataResponse<ProductDto> listProduct(String name){
-//        List<Product> productList= productRepository.findByStore(storeRepository.findByName(name));
-//        List<ProductDto> productDtoList = new ArrayList<>();
-//        for (Product product : productList){
-//            ProductDto productDto = DtoConverter.convertToDto(product, ProductDto.class);
-//            productDtoList.add(productDto);
-//        }
-//        return new DataResponse<>(ResultStatus.PROD_LIST, productDtoList);
-//    }
+
+        return ApiResponse.fromResultStatus(ResultStatus.PROD_LIST, productDtos);
+    }
 
     public ApiResponse<StoreDto.Spec> getStoreSpec(long storeId) {
         Store store = storeRepository.findById(storeId);
-
         StoreDto.Spec storeDto = DtoConverter.convertToDto(store, StoreDto.Spec.class);
 
         // ResultStatus와 데이터를 함께 응답
@@ -156,15 +142,5 @@ public class StoreService {
     }
 
 
-    // 결제 성공 후 event로 영수증 생성.
-    public void createReceipt(ProductDto productDto, String token){
-        Receipt receipt = Receipt.builder()
-                .store(productDto.getStore())
-                .customer(new Customer("test1", "test1"))
-                .orderDatetime(LocalDateTime.now())
-                .price(productDto.getPrice())
-                .build();
 
-        receiptRepository.save(receipt);
-    }
 }
