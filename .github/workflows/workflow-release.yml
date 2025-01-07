@@ -80,7 +80,6 @@ jobs:
             sudo docker run -d \
             --name ${IMAGE_NAME} \
             --network compose_default \
-            -e MYSQL_PASSWORD=${MYSQL_PASSWORD} \
             -p 8080:8080 \
             us-central1-docker.pkg.dev/${GCP_PROJECT_ID}/docker/${IMAGE_NAME}:${IMAGE_TAG}
 
