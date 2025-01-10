@@ -1,5 +1,5 @@
 ---
-name: Refactoring Proposal 🔧
+name: 🔧 Refactor
 about: 코드 리팩터링을 제안하세요
 title: "[REFACTOR] 제목을 입력하세요"
 labels: refactoring
