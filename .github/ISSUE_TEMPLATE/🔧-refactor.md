@@ -1,11 +1,16 @@
+name: "🔧 Refactor"
+about: 리팩터링 내용을 입력해주세요.
+title: "[REFACTOR]"
+labels: ''
+assignees: kamillcream
 ---
-name: 🔧 Refactor
-about: 코드 리팩터링을 제안하세요
+---
+name: Refactor Request 🔧
+about: 리팩터링을 제안하세요
 title: "[REFACTOR] 제목을 입력하세요"
-labels: refactoring
+labels: enhancement
 assignees: ''
 ---
-
 ## 코드 설명
 리팩터링 대상 코드에 대한 간단한 설명을 작성하세요.
 
