@@ -1,9 +1,3 @@
-name: "🔧 Refactor"
-about: 리팩터링 내용을 입력해주세요.
-title: "[REFACTOR]"
-labels: ''
-assignees: kamillcream
----
 ---
 name: Refactor Request 🔧
 about: 리팩터링을 제안하세요
