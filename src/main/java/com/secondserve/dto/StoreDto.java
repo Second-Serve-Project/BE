@@ -63,4 +63,14 @@ public class StoreDto {
         private Integer like;
         private String greenScore;
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class XY{
+        private double lat;
+        private double lon;
+        private double distance;
+    }
 }

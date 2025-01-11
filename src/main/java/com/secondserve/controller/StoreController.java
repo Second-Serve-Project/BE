@@ -75,6 +75,13 @@ public class StoreController implements StoreDocs {
         return storeService.getSaleStoreList();
     }
 
+    @GetMapping("/distance")
+    public ResponseEntity<StoreDto.XY> getDistance(@RequestParam double lat1, @RequestParam double lon1,
+                                                   @RequestParam double lat2, @RequestParam double lon2)
+    {
+        // 거리 계산
+        return ResponseEntity.ok(storeService.calculateDistance(lat1, lon1, lat2, lon2));
+    }
 
 
 }
