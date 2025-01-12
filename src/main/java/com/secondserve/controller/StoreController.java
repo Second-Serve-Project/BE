@@ -86,5 +86,13 @@ public class StoreController implements StoreDocs {
         return ResponseEntity.ok(storeService.calculateDistance(lat1, lon1, lat2, lon2));
     }
 
+    @GetMapping("/sort/greenScore2KM")
+    public ApiResponse<List<StoreDto.Search>> getSortStoreGreenScore2KM(@RequestParam double lat, @RequestParam double lon){
+        return storeService.getStoreSortGreenScore2KM(lat,lon);
+    }
+    @GetMapping("/sort/greenScore")
+    public ApiResponse<List<StoreDto.Search>> getSortStoreGreenScore(){
+        return storeService.getStoreSortGreenScore();
+    }
 
 }

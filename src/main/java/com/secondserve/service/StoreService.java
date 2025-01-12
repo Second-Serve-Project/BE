@@ -22,8 +22,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+
+import static java.util.Collections.sort;
 
 @Service
 @RequiredArgsConstructor
@@ -161,6 +164,39 @@ public class StoreService {
 
         return new StoreDto.XY(lat1,lon1,c*EARTH_RADIUS);
     }
+
+    public ApiResponse<List<StoreDto.Search>> getStoreSortGreenScore2KM(double lat, double lon) {
+
+        List<Store> storeList = storeRepository.findStoresWithin2Km(lat, lon);
+        List<StoreDto.Search> storeDtoList = new ArrayList<>();
+        storeList.sort(Comparator.comparingDouble(Store::getGreenScore).reversed());
+
+        for (Store store : storeList) {
+            StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
+            storeDtoList.add(storeDto);
+        }
+
+        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+    }
+
+    public ApiResponse<List<StoreDto.Search>> getStoreSortGreenScore() {
+
+        List<Store> storeList = storeRepository.findAll();
+        List<StoreDto.Search> storeDtoList = new ArrayList<>();
+
+        for (Store store : storeList) {
+            StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
+            storeDtoList.add(storeDto);
+        }
+
+        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+    }
+
+
+
+
+
+
 
 
 
