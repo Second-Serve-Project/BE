@@ -43,6 +43,10 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
+	// OAuth2
+	implementation 'org.springframework.security:spring-security-oauth2-client:6.4.2'
+
+
 	// JWT - ModelMapper
 	implementation 'org.modelmapper:modelmapper:2.4.2'
 
@@ -69,7 +73,6 @@ dependencies {
 
 	runtimeOnly 'com.palantir.safe-logging:logger:3.7.0'
 
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.1'
 
 	// Kafka
 	implementation 'org.springframework.kafka:spring-kafka'
