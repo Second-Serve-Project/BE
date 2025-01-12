@@ -1,6 +1,7 @@
 package com.secondserve.controller;
 
 import com.secondserve.docs.StoreDocs;
+import com.secondserve.dto.CustomerDto;
 import com.secondserve.dto.ProductDto;
 import com.secondserve.dto.ApiResponse;
 import com.secondserve.dto.StoreDto;
@@ -76,9 +77,11 @@ public class StoreController implements StoreDocs {
     }
 
     @GetMapping("/distance")
+    @ResponseBody
     public ResponseEntity<StoreDto.XY> getDistance(@RequestParam double lat1, @RequestParam double lon1,
                                                    @RequestParam double lat2, @RequestParam double lon2)
     {
+
         // 거리 계산
         return ResponseEntity.ok(storeService.calculateDistance(lat1, lon1, lat2, lon2));
     }
