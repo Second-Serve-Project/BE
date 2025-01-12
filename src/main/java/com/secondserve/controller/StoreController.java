@@ -7,23 +7,28 @@ import com.secondserve.dto.StoreDto;
 import com.secondserve.entity.Store;
 import com.secondserve.enumeration.ResultStatus;
 import com.secondserve.service.StoreService;
+import com.secondserve.service.async.StoreAsyncService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/store")
 @AllArgsConstructor
+@Slf4j
 public class StoreController implements StoreDocs {
     @Autowired
     private final StoreService storeService;
+    private final StoreAsyncService storeAsyncService;
     @PostMapping("/new")
     public ResponseEntity<ApiResponse<Void>> registerProduct(
             @Valid @RequestBody ProductDto productDto,
@@ -43,12 +48,14 @@ public class StoreController implements StoreDocs {
     }
 
     @GetMapping("/search")
-    public ApiResponse<List<StoreDto.Search>> searchStore(@RequestParam String search){
-        return storeService.getStoreList(search);
-    }
-    @GetMapping("/category")
-    public ApiResponse<List<StoreDto.Search>> categoryStore(@RequestParam String category){
-        return storeService.getStoreCategoryList(category);
+    public ApiResponse<List<StoreDto.Search>> searchStore(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) Double lat,
+            @RequestParam(required = false) Double lon
+    ){
+        return storeService.searchStores(name, category, address, lat, lon);
     }
     @GetMapping("/spec") // 특정 매장 페이지로 이동 후 판매하는 물품 리스트.
     public ApiResponse<StoreDto.Spec> specStore(@RequestParam long storeId) {
@@ -58,14 +65,6 @@ public class StoreController implements StoreDocs {
     public ApiResponse<List<ProductDto>> getProducts(@RequestParam long storeId) {
         return storeService.fetchProducts(new Store(storeId));
     }
-    @GetMapping("/search/address")
-    public ApiResponse<List<StoreDto.Search>> searchByAddress(@RequestParam String address){
-        return storeService.getStoreAddressList(address);
-    }
-    @GetMapping("/search/xy")
-    public ApiResponse<List<StoreDto.Search>> searchByGPS(@RequestParam double lat, @RequestParam double lon){
-        return storeService.getStoreXYList(lat, lon);
-    }
     @GetMapping("/recent")
     public ApiResponse<List<StoreDto.Recent>> recentStore(@RequestHeader("Authorization") String accessToken){
         return storeService.getRecentStoreList(accessToken);
@@ -73,6 +72,15 @@ public class StoreController implements StoreDocs {
     @GetMapping("/sale")
     public ApiResponse<List<StoreDto.Sale>> onSaleStore(){
         return storeService.getSaleStoreList();
+    }
+    @GetMapping("/test")
+    public CompletableFuture<ApiResponse<List<Store>>> test(){
+        return storeAsyncService.asyncTest();
+    }
+
+    @GetMapping("/test2")
+    public ApiResponse<List<Store>> test2(){
+        return storeService.test();
     }
 
 

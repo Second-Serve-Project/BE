@@ -7,6 +7,7 @@ import com.secondserve.entity.Customer;
 import com.secondserve.event.UserEvent;
 import com.secondserve.repository.CustomerRepository;
 import com.secondserve.enumeration.ResultStatus;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 
 @Service

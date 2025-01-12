@@ -10,6 +10,8 @@ import com.secondserve.repository.CartRepository;
 import com.secondserve.repository.CustomerRepository;
 import com.secondserve.repository.PickUpRepository;
 import com.secondserve.repository.StoreRepository;
+import com.secondserve.repository.custom.StoreRepositoryCustom;
+import com.secondserve.repository.impl.StoreRepositoryCustomImpl;
 import com.secondserve.util.DtoConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,14 +24,14 @@ import java.util.List;
 public class PickUpService {
     private final PickUpRepository pickUpRepository;
     private final CartRepository cartRepository;
-    private final StoreRepository storeRepository;
+    private final StoreRepositoryCustomImpl storeRepositoryImpl;
     private final CustomerRepository customerRepository;
     private final JwtUtil jwtUtil;
     public PickUp savePickUp(OrderInfoDto orderInfoDto, String accessToken) {
         Customer customer = customerRepository.findByCustomerId(jwtUtil.getId(accessToken));
         Cart cart = DtoConverter.convertToDto(orderInfoDto, Cart.class);
         cart.setCartId(2);
-        PickUp pickUp = new PickUp().createPickUp(storeRepository.findByName(orderInfoDto.getStoreName()), cart, customer);
+        PickUp pickUp = new PickUp().createPickUp(storeRepositoryImpl.findByName(orderInfoDto.getStoreName()), cart, customer);
         pickUpRepository.save(pickUp);
 
         return pickUp;
