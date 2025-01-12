@@ -1,10 +1,5 @@
 package com.secondserve.dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalTime;
@@ -15,13 +10,14 @@ public class StoreDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
+
     public static class Search{
         private String name;
         private String category;
         private String backImage;
-        private Integer like;
-        private Integer review;
-        private String greenScore;
+        private int like;
+        private int review;
+        private double greenScore;
         private String state;
         private LocalTime sale; // 할인 시작 시간
     }
@@ -40,6 +36,16 @@ public class StoreDto {
         private LocalTime end;
 
         private String rest;
+
+        public Spec(String name, String category, String backImage, int like, int review, double greenScore, String state,
+                    LocalTime sale, String address, String tel, LocalTime open, LocalTime end, String rest) {
+            super(name, category, backImage, like, review, greenScore, state, sale);
+            this.address = address;
+            this.tel = tel;
+            this.open = open;
+            this.end = end;
+            this.rest = rest;
+        }
     }
     @Getter
     @Setter
@@ -61,6 +67,6 @@ public class StoreDto {
         private String name;
         private String backImage;
         private Integer like;
-        private String greenScore;
+        private double greenScore;
     }
 }

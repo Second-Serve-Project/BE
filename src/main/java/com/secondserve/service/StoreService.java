@@ -1,26 +1,21 @@
 package com.secondserve.service;
 
 import com.secondserve.dto.*;
-import com.secondserve.entity.Customer;
-import com.secondserve.entity.Product;
-import com.secondserve.entity.Receipt;
-import com.secondserve.entity.Store;
-import com.secondserve.jwt.JwtUtil;
+import com.secondserve.entity.*;
 import com.secondserve.repository.ProductRepository;
 import com.secondserve.repository.ReceiptRepository;
 import com.secondserve.repository.StoreRepository;
+import com.secondserve.repository.custom.StoreRepositoryCustom;
 import com.secondserve.enumeration.ResultStatus;
+import com.secondserve.repository.impl.StoreRepositoryCustomImpl;
 import com.secondserve.util.CustomerUtil;
 import com.secondserve.util.DtoConverter;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.kafka.shaded.com.google.protobuf.Api;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,14 +23,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class StoreService {
-    @Autowired
+
     private final ProductRepository productRepository;
-    @Autowired
     private final StoreRepository storeRepository;
-    @Autowired
-    private final ReceiptRepository receiptRepository;
-    @Autowired
-    private final CustomerUtil customerUtil;
+    private final StoreRepositoryCustomImpl storeRepositoryCustom;
     private final PaymentService paymentService;
     @Transactional
     public ResultStatus registerProduct(ProductDto productDto) {
@@ -58,87 +49,41 @@ public class StoreService {
     }
 
     public ApiResponse<List<ProductDto>> fetchProducts(Store store) {
-        List<Product> products = productRepository.findByStore(store);
-        List<ProductDto> productDtos = new ArrayList<>();
-        for(Product p : products){
-            productDtos.add(DtoConverter.convertToDto(p, ProductDto.class));
-        }
-
-        return ApiResponse.fromResultStatus(ResultStatus.PROD_LIST, productDtos);
+        return ApiResponse.fromResultStatus(ResultStatus.PROD_LIST, productRepository.findByStore(store));
     }
 
     public ApiResponse<StoreDto.Spec> getStoreSpec(long storeId) {
-        Store store = storeRepository.findById(storeId);
-        StoreDto.Spec storeDto = DtoConverter.convertToDto(store, StoreDto.Spec.class);
-
-        // ResultStatus와 데이터를 함께 응답
-        return ApiResponse.fromResultStatus(ResultStatus.STORE_SPEC, storeDto);
+        return ApiResponse.fromResultStatus(ResultStatus.STORE_SPEC, storeRepositoryCustom.findSpecById(storeId));
     }
 
-    public ApiResponse<List<StoreDto.Search>> getStoreList(String search) {
-        List<Store> storeList = storeRepository.findByNameContaining(search);
-        List<StoreDto.Search> storeDtoList = new ArrayList<>();
-        for (Store store : storeList) {
-            StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
-            storeDtoList.add(storeDto);
-        }
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+    public ApiResponse<List<StoreDto.Search>> searchStores(String name, String category, String address, Double lat, Double lon) {
+        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeRepositoryCustom.searchStores(name, category, address, lat, lon));
     }
-    public ApiResponse<List<StoreDto.Search>> getStoreCategoryList(String category) {
-        List<Store> storeList = storeRepository.findByCategory(category);
-        List<StoreDto.Search> storeDtoList = new ArrayList<>();
-        for (Store store : storeList) {
-            StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
-            storeDtoList.add(storeDto);
-        }
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
-    }
-    public ApiResponse<List<StoreDto.Search>> getStoreAddressList(String address) {
-        List<Store> storeList = storeRepository.findByAddress(address);
-        List<StoreDto.Search> storeDtoList = new ArrayList<>();
-        for (Store store : storeList) {
-            StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
-            storeDtoList.add(storeDto);
-        }
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
-    }
-    public ApiResponse<List<StoreDto.Search>> getStoreXYList(double lat, double lon) {
-        List<Store> storeList = storeRepository.findStoresWithin2Km(lat, lon);
-        List<StoreDto.Search> storeDtoList = new ArrayList<>();
-        for (Store store : storeList) {
-            StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
-            storeDtoList.add(storeDto);
-        }
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
-    }
+
+
     public ApiResponse<List<StoreDto.Recent>> getRecentStoreList(String accessToken) {
         List<Long> storeIds = paymentService.fetchVisitedStoreList(accessToken);
-
-        // 디버깅용 로그
-        System.out.println("Fetched Store IDs: " + storeIds);
-
         List<Long> uniqueStoreIds = storeIds.stream().distinct().toList();
-        System.out.println("Unique Store IDs: " + uniqueStoreIds);
 
-        List<Store> storeList = storeRepository.findStoresWithIds(uniqueStoreIds);
+        List<StoreDto.Recent> storeList = storeRepositoryCustom.findByIds(uniqueStoreIds);
 
-        List<StoreDto.Recent> storeDtoList = new ArrayList<>();
-        for (Store store : storeList) {
-            StoreDto.Recent storeDto = DtoConverter.convertToDto(store, StoreDto.Recent.class);
-            storeDtoList.add(storeDto);
-        }
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeList);
     }
 
     public ApiResponse<List<StoreDto.Sale>> getSaleStoreList() {
-        List<Store> storeList = storeRepository.findStoreWithSaleTime(LocalTime.now());
+        List<StoreDto.Sale> storeList = storeRepositoryCustom.findBySaleTimeBefore(LocalTime.now());
+
+        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeList);
+    }
+    public ApiResponse<List<Store>> test() {
+        List<Store> storeList = storeRepository.findAll();
         List<StoreDto.Sale> storeDtoList = new ArrayList<>();
         for (Store store : storeList) {
             StoreDto.Sale storeDto = DtoConverter.convertToDto(store, StoreDto.Sale.class);
             storeDtoList.add(storeDto);
         }
 
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeList);
     }
 
 

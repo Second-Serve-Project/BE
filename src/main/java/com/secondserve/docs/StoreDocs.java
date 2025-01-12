@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Tag(name = "매장", description = "매장 관련 API입니다.")
 public interface StoreDocs {
@@ -29,14 +30,14 @@ public interface StoreDocs {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "매장명 조회 성공")})
     @GetMapping("/search")
-    ApiResponse<List<StoreDto.Search>> searchStore(@RequestParam String search);
+    public ApiResponse<List<StoreDto.Search>> searchStore(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) Double lat,
+            @RequestParam(required = false) Double lon
+    );
 
-    @Operation(summary = "카테고리별 매장 검색", description = "카테고리를 기준으로 매장을 검색합니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "카테고리 조회 성공")})
-
-    @GetMapping("/category")
-    ApiResponse<List<StoreDto.Search>> categoryStore(@RequestParam String category);
 
     @Operation(summary = "매장 세부 정보", description = "특정 매장의 판매 물품 정보를 가져옵니다.")
     @ApiResponses(value = {
@@ -44,17 +45,6 @@ public interface StoreDocs {
     @GetMapping("/spec")
     ApiResponse<StoreDto.Spec> specStore(@RequestParam long storeId);
 
-    @Operation(summary = "주소 기반 매장 검색", description = "주소를 기준으로 매장을 검색합니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "주소 기반 검색 성공")})
-    @GetMapping("/search/address")
-    ApiResponse<List<StoreDto.Search>> searchByAddress(@RequestParam String address);
-
-    @Operation(summary = "위치 기반 매장 검색", description = "위도와 경도를 기준으로 매장을 검색합니다.")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "위치 기반 검색 성공")})
-    @GetMapping("/search/xy")
-    ApiResponse<List<StoreDto.Search>> searchByGPS(@RequestParam double lat, @RequestParam double lon);
 
     @Operation(summary = "최근 주문 매장 검색", description = "최근 주문했던 매장을 반환합니다.")
     @ApiResponses(value = {
