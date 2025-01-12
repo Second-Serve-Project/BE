@@ -15,9 +15,9 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> findByCategory(String category);
     List<Store> findByAddress(String address);
     @Query(
-            value = "SELECT * FROM Store s WHERE ST_Distance_Sphere(point(s.lon, s.lat), point(:lon, :lat)) <= 2000",
+            value = "SELECT * FROM store s WHERE ST_Distance_Sphere(point(s.lon, s.lat), point(:lon, :lat)) <= 2000",
             nativeQuery = true
-    )
+    )//Store에서 store로 변경
     List<Store> findStoresWithin2Km(@Param("lat") double lat, @Param("lon") double lon);
 
     @Query(value = "SELECT s FROM Store s WHERE s.id IN :storeIds")
