@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface StoreRepository extends JpaRepository<Store, Long> {
     Store findByName(String name);
@@ -24,6 +25,10 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> findStoresWithIds(@Param("storeIds") List<Long> ids);
     @Query(value = "SELECT s FROM Store s WHERE s.sale <= :sale")
     List<Store> findStoreWithSaleTime(@Param("sale") LocalTime time);
+
+    @Query("SELECT s FROM Store s WHERE s.lat = :lat AND s.lon = :lon")
+    Optional<Store> findStoresByLatAndLon(@Param("lat") double lat, @Param("lon") double lon);
+
 
 
 }
