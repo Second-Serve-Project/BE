@@ -9,8 +9,6 @@ import com.secondserve.jwt.JwtUtil;
 import com.secondserve.repository.CartRepository;
 import com.secondserve.repository.CustomerRepository;
 import com.secondserve.repository.PickUpRepository;
-import com.secondserve.repository.StoreRepository;
-import com.secondserve.repository.custom.StoreRepositoryCustom;
 import com.secondserve.repository.impl.StoreRepositoryCustomImpl;
 import com.secondserve.util.DtoConverter;
 import lombok.RequiredArgsConstructor;

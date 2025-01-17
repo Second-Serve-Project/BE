@@ -3,16 +3,12 @@ package com.secondserve.service;
 import com.secondserve.dto.*;
 import com.secondserve.entity.*;
 import com.secondserve.repository.ProductRepository;
-import com.secondserve.repository.ReceiptRepository;
 import com.secondserve.repository.StoreRepository;
-import com.secondserve.repository.custom.StoreRepositoryCustom;
 import com.secondserve.enumeration.ResultStatus;
 import com.secondserve.repository.impl.StoreRepositoryCustomImpl;
-import com.secondserve.util.CustomerUtil;
 import com.secondserve.util.DtoConverter;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.kafka.shaded.com.google.protobuf.Api;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;

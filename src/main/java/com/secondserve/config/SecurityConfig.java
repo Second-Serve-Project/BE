@@ -1,6 +1,10 @@
 package com.secondserve.config;
 
 import com.secondserve.jwt.*;
+import com.secondserve.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.secondserve.oauth2.handler.OAuth2AuthenticationFailureHandler;
+import com.secondserve.oauth2.handler.OAuth2AuthenticationSuccessHandler;
+import com.secondserve.oauth2.service.CustomOAuth2UserService;
 import com.secondserve.repository.RefreshRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +27,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityConfig {
-
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final RefreshRepository refreshRepository;
     private final JwtUtil jwtUtil;
@@ -53,9 +60,15 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(requests -> requests
                         //.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/store/*","/store/**","/login", "/pay/*","/pay/api/order/payment/complete","/signup", "/swagger-ui/**",    // Swagger UI 관련 경로
+                        .requestMatchers("/oauth2/**","/store/*","/store/**","/login", "/pay/*","/pay/api/order/payment/complete","/signup", "/swagger-ui/**",    // Swagger UI 관련 경로
                                 "/v3/api-docs/**","/pickup/*").permitAll()
                         .anyRequest().authenticated()
+                )
+                .oauth2Login(configure ->
+                                configure.authorizationEndpoint(config -> config.authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository))
+                                        .userInfoEndpoint(config -> config.userService(customOAuth2UserService))
+                                        .successHandler(oAuth2AuthenticationSuccessHandler)
+                                        .failureHandler(oAuth2AuthenticationFailureHandler)
                 );
 
         http

@@ -9,7 +9,6 @@ import com.secondserve.service.PaymentService;
 import com.secondserve.util.PayUtil;
 import com.siot.IamportRestClient.IamportClient;
 
-import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

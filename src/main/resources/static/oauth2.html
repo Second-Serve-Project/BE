@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google OAuth2 Login</title>
+</head>
+<body>
+<h1>Login with Google</h1>
+<p>Click the button below to log in with your Google account:</p>
+
+<!-- POST 요청 -->
+<form action="http://localhost:8080/oauth2/authorization/google" method="GET">
+  <input type="hidden" name="redirect_uri" value="http://localhost:8080">
+  <input type="hidden" name="mode" value="login">
+  <button type="submit" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Login with Google</button>
+</form>
+</body>
+</html>

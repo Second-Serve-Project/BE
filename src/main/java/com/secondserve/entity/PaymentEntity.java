@@ -1,11 +1,8 @@
 package com.secondserve.entity;
 
-import com.secondserve.dto.CartDto;
 import com.secondserve.enumeration.PayStatus;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Getter

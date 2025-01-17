@@ -2,24 +2,15 @@ package com.secondserve.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.secondserve.dto.ApiResponse;
 import com.secondserve.dto.CartDto;
 import com.secondserve.dto.OrderInfoDto;
-import com.secondserve.entity.Appointment;
 import com.secondserve.entity.Cart;
 import com.secondserve.entity.Customer;
 import com.secondserve.entity.PaymentEntity;
-import com.secondserve.enumeration.ResultStatus;
 import com.secondserve.repository.CartRepository;
 import com.secondserve.repository.PaymentRepository;
 import com.secondserve.util.CustomerUtil;
 import com.secondserve.util.DtoConverter;
-import com.siot.IamportRestClient.IamportClient;
-import com.siot.IamportRestClient.request.CancelData;
-import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
-import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,9 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
-import java.math.BigDecimal;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
