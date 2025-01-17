@@ -16,8 +16,8 @@ spring:
               - email
 
           naver:
-            client-id: 5O6UsqD3Vpi_cRKUin2a
-            client-secret: kS3rGeqbIL
+            client-id: ${NAVER_CLIENT_ID}
+            client-secret: ${NAVER_CLIENT_SECRET}
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
