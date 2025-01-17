@@ -160,9 +160,10 @@ public class StoreService {
                 + Math.cos(lat1Rad) * Math.cos(lat2Rad)
                 * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        Store store=storeRepository.findStoresByLatAndLon(lat1,lon1).get();
 
 
-        return new StoreDto.XY(lat1,lon1,c*EARTH_RADIUS);
+        return new StoreDto.XY(store.getName(),store.getBackImage(),store.getLike(),store.getGreenScore(),lat1,lon1,c*EARTH_RADIUS);
     }
 
     public ApiResponse<List<StoreDto.Search>> getStoreSortGreenScore2KM(double lat, double lon) {
@@ -173,6 +174,7 @@ public class StoreService {
 
         for (Store store : storeList) {
             StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
+            storeDto.setGreenScore(Double.toString(store.getGreenScore()));
             storeDtoList.add(storeDto);
         }
 
@@ -187,6 +189,7 @@ public class StoreService {
 
         for (Store store : storeList) {
             StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
+            storeDto.setGreenScore(Double.toString(store.getGreenScore()));
             storeDtoList.add(storeDto);
         }
 
@@ -203,7 +206,7 @@ public class StoreService {
             storeDto=calculateDistance(storeDto.getLat(),storeDto.getLon(),lat,lon);
             storeDtoList.add(storeDto);
         }
-        storeDtoList.sort(Comparator.comparingDouble(StoreDto.XY::getDistance).reversed());
+        storeDtoList.sort(Comparator.comparingDouble(StoreDto.XY::getDistance));
         return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
     }
     public ApiResponse<List<StoreDto.XY>> getStoreSortDistance2KM(double lat, double lon) {
@@ -217,7 +220,7 @@ public class StoreService {
             storeDto=calculateDistance(storeDto.getLat(),storeDto.getLon(),lat,lon);
             storeDtoList.add(storeDto);
         }
-        storeDtoList.sort(Comparator.comparingDouble(StoreDto.XY::getDistance).reversed());
+        storeDtoList.sort(Comparator.comparingDouble(StoreDto.XY::getDistance));
         return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
     }
 
