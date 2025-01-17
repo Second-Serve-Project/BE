@@ -46,6 +46,13 @@ dependencies {
 	// OAuth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+	// Kafka
+	implementation 'org.springframework.kafka:spring-kafka'
+
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+
 	// JWT - ModelMapper
 	implementation 'org.modelmapper:modelmapper:2.4.2'
 
