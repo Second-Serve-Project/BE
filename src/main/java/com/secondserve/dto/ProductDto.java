@@ -1,9 +1,5 @@
 package com.secondserve.dto;
 
-import com.secondserve.entity.Store;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
 
 @Getter

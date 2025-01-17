@@ -10,8 +10,6 @@ import com.secondserve.dto.StoreDto;
 import com.secondserve.entity.QStore;
 import com.secondserve.entity.Store;
 import com.secondserve.repository.custom.StoreRepositoryCustom;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;

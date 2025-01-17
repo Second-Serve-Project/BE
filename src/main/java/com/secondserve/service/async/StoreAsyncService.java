@@ -1,7 +1,6 @@
 package com.secondserve.service.async;
 
 import com.secondserve.dto.ApiResponse;
-import com.secondserve.dto.StoreDto;
 import com.secondserve.entity.Store;
 import com.secondserve.service.StoreService;
 import lombok.RequiredArgsConstructor;

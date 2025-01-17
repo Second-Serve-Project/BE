@@ -1,6 +1,5 @@
 package com.secondserve.entity;
 
-import com.secondserve.dto.OrderInfoDto;
 import jakarta.persistence.*;
 import lombok.*;
 

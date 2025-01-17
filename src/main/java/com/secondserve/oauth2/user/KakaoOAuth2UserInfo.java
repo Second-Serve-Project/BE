@@ -7,7 +7,7 @@ public class KakaoOAuth2UserInfo implements OAuth2UserInfo {
     private final Map<String, Object> attributes;
     private final String accessToken;
     private final String id;
-    private final String email;
+    private final String email = "glitt5384@naver.com"; // 하드 코딩한 이유: 카카오 개발자 사이트에서 이메일 권한 요청을 아직 하지 않음.
     private final String name;
     private final String firstName;
     private final String lastName;
@@ -22,8 +22,6 @@ public class KakaoOAuth2UserInfo implements OAuth2UserInfo {
         this.attributes = kakaoProfile;
 
         this.id = ((Long) attributes.get("id")).toString();
-        this.email = (String) kakaoAccount.get("email");
-
         this.name = null;
         this.firstName = null;
         this.lastName = null;
