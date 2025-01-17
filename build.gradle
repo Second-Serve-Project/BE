@@ -38,14 +38,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation:3.3.3'
 	implementation 'io.swagger.core.v3:swagger-annotations:2.2.22'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
-	// JWT 관련
+	//	 JWT 관련
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
 	// OAuth2
-	implementation 'org.springframework.security:spring-security-oauth2-client:6.4.2'
-
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	// JWT - ModelMapper
 	implementation 'org.modelmapper:modelmapper:2.4.2'
