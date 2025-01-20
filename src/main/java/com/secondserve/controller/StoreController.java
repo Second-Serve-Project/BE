@@ -194,6 +194,33 @@ public class StoreController implements StoreDocs {
             System.err.println("Kafka 메시지 처리 실패: " + e.getMessage());
         }
     }
-    //TODO (fetch-store-resonse)
 
+    @KafkaListener(topics = "fetch-store-response", groupId = "store-group")
+    public void consumeResponseMessage2(String response) {
+        try {
+            // 메시지 역직렬화
+            ResponsePayload<ApiResponse<List<StoreDto.Search>>> responsePayload =
+                    new ObjectMapper().readValue(response, new TypeReference<>() {});
+
+            // 요청 ID 추출
+            String requestId = responsePayload.getRequestId();
+            ApiResponse<List<StoreDto.Search>> apiResponse = responsePayload.getResponse();
+
+            // Redis에 데이터 캐싱
+            String cacheKey = "store:" + apiResponse.getData().get(0).getName();
+            redisTemplate.opsForValue().set(cacheKey, apiResponse, Duration.ofMinutes(10));
+
+            // CompletableFuture에 응답 설정
+            CompletableFuture<ApiResponse<?>> future = responseFutures.remove(requestId);
+            if (future != null) {
+                future.complete(apiResponse);
+            } else {
+                System.err.println("해당 요청 ID에 대한 Future를 찾을 수 없습니다: " + requestId);
+            }
+        } catch (JsonProcessingException e) {
+            System.err.println("JSON 파싱 실패: " + e.getMessage() + " | 원본 메시지: " + response);
+        } catch (Exception e) {
+            System.err.println("Kafka 메시지 처리 실패: " + e.getMessage());
+        }
+    }
 }

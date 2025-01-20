@@ -10,7 +10,6 @@ public class StoreDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-
     public static class Search{
         private String name;
         private String category;
@@ -19,7 +18,8 @@ public class StoreDto {
         private int review;
         private double greenScore;
         private String state;
-        private LocalTime sale; // 할인 시작 시간
+        // TODO: Jackson이 LocalTime을 역직렬화 못해서 String으로 바꿨더니 생성자를 못 찾음.
+        private String sale; // 할인 시작 시간
     }
     @Getter
     @Setter
@@ -38,7 +38,7 @@ public class StoreDto {
         private String rest;
 
         public Spec(String name, String category, String backImage, int like, int review, double greenScore, String state,
-                    LocalTime sale, String address, String tel, LocalTime open, LocalTime end, String rest) {
+                    String sale, String address, String tel, LocalTime open, LocalTime end, String rest) {
             super(name, category, backImage, like, review, greenScore, state, sale);
             this.address = address;
             this.tel = tel;

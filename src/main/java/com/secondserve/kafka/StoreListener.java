@@ -48,7 +48,6 @@ public class StoreListener{
             System.err.println("메시지 처리 실패: " + e.getMessage());
         }
     }
-    // TODO
     @KafkaListener(topics = "fetch-store", groupId = "store-group")
     public void consumeStoreMessage(String message) {
         try {
@@ -56,7 +55,7 @@ public class StoreListener{
             RequestPayload<Object> requestPayload = new ObjectMapper().readValue(message, new TypeReference<>() {});
             //String category = requestPayload.getRequestParam();
             // 비즈니스 로직 수행
-            ApiResponse<List<ProductDto>> responses = storeService.fetchProducts(new Store(storeId));
+            ApiResponse<List<StoreDto.Search>> responses = storeService.searchStores(null, "Category_1", null, null, null);
 
             // 응답 생성
             ResponsePayload responsePayload = new ResponsePayload(requestPayload.getRequestId(), responses);
@@ -65,7 +64,7 @@ public class StoreListener{
             String jsonResponse = new ObjectMapper().writeValueAsString(responsePayload);
 
             // Kafka로 JSON 메시지 전송
-            kafkaTemplate.send("fetch-product-response", jsonResponse);
+            kafkaTemplate.send("fetch-store-response", jsonResponse);
         } catch (JsonProcessingException e) {
             System.err.println("Kafka 메시지 직렬화 실패: " + e.getMessage());
         } catch (Exception e) {
