@@ -1,6 +1,7 @@
 package com.secondserve.controller;
 
 import com.secondserve.docs.StoreDocs;
+import com.secondserve.dto.CustomerDto;
 import com.secondserve.dto.ProductDto;
 import com.secondserve.dto.ApiResponse;
 import com.secondserve.dto.SearchRequest;
@@ -81,6 +82,36 @@ public class StoreController implements StoreDocs {
     @GetMapping("/test2")
     public ApiResponse<List<Store>> test2(){
         return storeService.test();
+    }
+
+    @GetMapping("/distance")
+    @ResponseBody
+    public ResponseEntity<StoreDto.XY> getDistance(@RequestParam double lat1, @RequestParam double lon1,
+                                                   @RequestParam double lat2, @RequestParam double lon2)
+    {
+
+        // 거리 계산
+        return ResponseEntity.ok(storeService.calculateDistance(lat1, lon1, lat2, lon2));
+    }
+    //2km 이내 거리에 있는 가게 greenScore 별 정렬
+    @GetMapping("/sort/greenScore2KM")
+    public ApiResponse<List<StoreDto.Search>> getSortStoreGreenScore2KM(@RequestParam double lat, @RequestParam double lon){
+        return storeService.getStoreSortGreenScore2KM(lat,lon);
+    }
+    //모든 거리에 있는 가게 greenScore 별 정렬
+    @GetMapping("/sort/greenScore")
+    public ApiResponse<List<StoreDto.Search>> getSortStoreGreenScore(){
+        return storeService.getStoreSortGreenScore();
+    }
+
+
+    @GetMapping("/sort/distance")
+    public ApiResponse<List<StoreDto.XY>> getSortStoreDistance(@RequestParam double lat, @RequestParam double lon){
+        return storeService.getStoreSortDistance(lat,lon);
+    }
+    @GetMapping("/sort/distance2KM")
+    public ApiResponse<List<StoreDto.XY>> getSortStoreDistance2KM(@RequestParam double lat, @RequestParam double lon){
+        return storeService.getStoreSortDistance2KM(lat,lon);
     }
 
 }
