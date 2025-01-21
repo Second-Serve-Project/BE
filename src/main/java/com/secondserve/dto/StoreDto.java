@@ -69,4 +69,18 @@ public class StoreDto {
         private Integer like;
         private double greenScore;
     }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class XY{
+        private String name;
+        private String backImage;
+        private Integer like;
+        private double greenScore;
+        private double lat;
+        private double lon;
+        private double distance;
+    }
 }
