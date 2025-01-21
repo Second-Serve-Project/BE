@@ -55,8 +55,12 @@ public class StoreService {
         return ApiResponse.fromResultStatus(ResultStatus.STORE_SPEC, storeRepositoryCustom.findSpecById(storeId));
     }
 
-    public ApiResponse<List<StoreDto.Search>> searchStores(String name, String category, String address, Double lat, Double lon) {
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeRepositoryCustom.searchStores(name, category, address, lat, lon));
+    public ApiResponse<List<StoreDto.Search>> searchStores(SearchRequest searchRequest) {
+        List<StoreDto.Search> response = storeRepositoryCustom.searchStores(searchRequest);
+        for(StoreDto.Search s : response){
+            System.out.println(s.getName());
+        }
+        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeRepositoryCustom.searchStores(searchRequest));
     }
 
 

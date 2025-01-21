@@ -8,9 +8,7 @@ import java.time.LocalTime;
 public class StoreDto {
     @Getter
     @Setter
-    @AllArgsConstructor
     @NoArgsConstructor
-
     public static class Search{
         private String name;
         private String category;
@@ -19,7 +17,18 @@ public class StoreDto {
         private int review;
         private double greenScore;
         private String state;
-        private LocalTime sale; // 할인 시작 시간
+        private String sale; // 할인 시작 시간
+        public Search(String name, String category, String backImage, int like, int review, double greenScore,
+                      String state, LocalTime sale){
+            this.name = name;
+            this.category = category;
+            this.backImage = backImage;
+            this.like = like;
+            this.review = review;
+            this.greenScore = greenScore;
+            this.state = state;
+            this.sale = sale.toString();
+        }
     }
     @Getter
     @Setter

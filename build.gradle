@@ -28,7 +28,8 @@ dependencies {
 
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.16.1'
-	implementation 'org.springframework.boot:spring-boot-starter:3.3.2'
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.2' // Jackson이 localtime 미지원함에 따라 별도 추가.
+ 	implementation 'org.springframework.boot:spring-boot-starter:3.3.2'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
 	implementation 'org.springframework.security:spring-security-crypto:6.3.1'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -45,6 +46,10 @@ dependencies {
 
 	// OAuth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
 
 	// JWT - ModelMapper
 	implementation 'org.modelmapper:modelmapper:2.4.2'
@@ -72,12 +77,6 @@ dependencies {
 
 	runtimeOnly 'com.palantir.safe-logging:logger:3.7.0'
 
-
-	// Kafka
-	implementation 'org.springframework.kafka:spring-kafka'
-
-	// Kafka 관련 테스트
-	testImplementation 'org.springframework.kafka:spring-kafka-test'
 
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'

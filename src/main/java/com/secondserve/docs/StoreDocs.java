@@ -2,6 +2,7 @@ package com.secondserve.docs;
 
 import com.secondserve.dto.ProductDto;
 import com.secondserve.dto.ApiResponse;
+import com.secondserve.dto.SearchRequest;
 import com.secondserve.dto.StoreDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -30,13 +31,7 @@ public interface StoreDocs {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "매장명 조회 성공")})
     @GetMapping("/search")
-    public ApiResponse<List<StoreDto.Search>> searchStore(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String address,
-            @RequestParam(required = false) Double lat,
-            @RequestParam(required = false) Double lon
-    );
+    public ApiResponse<List<StoreDto.Search>> searchStore(@ModelAttribute SearchRequest searchRequest);
 
 
     @Operation(summary = "매장 세부 정보", description = "특정 매장의 판매 물품 정보를 가져옵니다.")

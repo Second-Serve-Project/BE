@@ -4,6 +4,7 @@ import com.secondserve.docs.StoreDocs;
 import com.secondserve.dto.CustomerDto;
 import com.secondserve.dto.ProductDto;
 import com.secondserve.dto.ApiResponse;
+import com.secondserve.dto.SearchRequest;
 import com.secondserve.dto.StoreDto;
 import com.secondserve.entity.Store;
 import com.secondserve.enumeration.ResultStatus;
@@ -12,13 +13,15 @@ import com.secondserve.service.async.StoreAsyncService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @RestController
@@ -27,9 +30,12 @@ import java.util.concurrent.CompletableFuture;
 @AllArgsConstructor
 @Slf4j
 public class StoreController implements StoreDocs {
-    @Autowired
     private final StoreService storeService;
     private final StoreAsyncService storeAsyncService;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final Map<String, CompletableFuture<ApiResponse<?>>> responseFutures = new ConcurrentHashMap<>();
+
+
     @PostMapping("/new")
     public ResponseEntity<ApiResponse<Void>> registerProduct(
             @Valid @RequestBody ProductDto productDto,
@@ -49,14 +55,8 @@ public class StoreController implements StoreDocs {
     }
 
     @GetMapping("/search")
-    public ApiResponse<List<StoreDto.Search>> searchStore(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String address,
-            @RequestParam(required = false) Double lat,
-            @RequestParam(required = false) Double lon
-    ){
-        return storeService.searchStores(name, category, address, lat, lon);
+    public ApiResponse<List<StoreDto.Search>> searchStore(@ModelAttribute SearchRequest searchRequest){
+        return storeService.searchStores(searchRequest);
     }
     @GetMapping("/spec") // 특정 매장 페이지로 이동 후 판매하는 물품 리스트.
     public ApiResponse<StoreDto.Spec> specStore(@RequestParam long storeId) {
@@ -75,8 +75,8 @@ public class StoreController implements StoreDocs {
         return storeService.getSaleStoreList();
     }
     @GetMapping("/test")
-    public CompletableFuture<ApiResponse<List<Store>>> test(){
-        return storeAsyncService.asyncTest();
+    public CompletableFuture<ApiResponse<List<StoreDto.Search>>> test(@ModelAttribute SearchRequest searchRequest){
+        return storeAsyncService.asyncSearchStores(searchRequest);
     }
 
     @GetMapping("/test2")
