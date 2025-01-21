@@ -15,9 +15,10 @@ public class AsyncConfig {
     @Bean(destroyMethod = "shutdown")
     public Executor asyncExecutor() {
         final var executor = new ThreadPoolTaskExecutorBuilder()
-                .corePoolSize(100)
-                .maxPoolSize(500)
-                .threadNamePrefix("CustomTP-")
+                .corePoolSize(16)
+                .maxPoolSize(32)
+                .queueCapacity(100)
+                .threadNamePrefix("AsyncExecutor-")
                 .build();
         executor.initialize();
 

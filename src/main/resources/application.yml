@@ -9,6 +9,10 @@ spring:
         min-idle: 0
   kafka:
     bootstrap-server: "localhost:9092"
+    consumer:
+      fetch-max-bytes: 30971520
+      producer:
+        max-request-size: 30971520
   datasource:
     url: jdbc:mariadb://35.222.150.45:3306/secondserve
     driver-class-name: org.mariadb.jdbc.Driver
@@ -83,6 +87,8 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
+        show_sql: true
+        format_sql: true
         dialect: org.hibernate.dialect.MariaDBDialect
 
 imp:
@@ -107,7 +113,3 @@ jwt:
   secret: "jfsgkhdsjkweoiruwqejkrfbhnsadkjlfghbwerqewrsdfgdsfagbdf"
   access-expiration: 3600
   refresh-expiration: 8640
-
-logging:
-  level:
-    org.springframework.data.redis: DEBUG

@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.secondserve.dto.SearchRequest;
 import com.secondserve.dto.StoreDto;
 import com.secondserve.entity.QStore;
 import com.secondserve.entity.Store;
@@ -59,12 +60,12 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
     }
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public List<StoreDto.Search> searchStores(String name, String category, String address, Double lat, Double lon) {
+    public List<StoreDto.Search> searchStores(SearchRequest searchRequest) {
         BooleanExpression condition = store.isNotNull(); // 기본 조건 추가
-        if (name != null) condition = condition.and(containsIgnoreCase(store.name, name));
-        if (category != null) condition = condition.and(equalsIgnoreCase(store.category, category));
-        if (address != null) condition = condition.and(containsIgnoreCase(store.address, address));
-        if (lat != null && lon != null) condition = condition.and(withinDistance(lat, lon));
+        if (searchRequest.getName() != null) condition = condition.and(containsIgnoreCase(store.name, searchRequest.getName()));
+        if (searchRequest.getCategory() != null) condition = condition.and(equalsIgnoreCase(store.category, searchRequest.getCategory()));
+        if (searchRequest.getAddress() != null) condition = condition.and(containsIgnoreCase(store.address, searchRequest.getAddress()));
+        if (searchRequest.getLat() != null && searchRequest.getLon() != null) condition = condition.and(withinDistance(searchRequest.getLat(), searchRequest.getLon()));
 
         return queryFactory
                 .select(Projections.constructor(StoreDto.Search.class,
@@ -78,7 +79,7 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
                         store.sale
                 ))
                 .from(store)
-                .where(condition) // 단일 조건으로 변경
+                .where(condition)
                 .fetch();
     }
 

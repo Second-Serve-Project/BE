@@ -8,7 +8,6 @@ import java.time.LocalTime;
 public class StoreDto {
     @Getter
     @Setter
-    @AllArgsConstructor
     @NoArgsConstructor
     public static class Search{
         private String name;
@@ -18,8 +17,18 @@ public class StoreDto {
         private int review;
         private double greenScore;
         private String state;
-        // TODO: Jackson이 LocalTime을 역직렬화 못해서 String으로 바꿨더니 생성자를 못 찾음.
         private String sale; // 할인 시작 시간
+        public Search(String name, String category, String backImage, int like, int review, double greenScore,
+                      String state, LocalTime sale){
+            this.name = name;
+            this.category = category;
+            this.backImage = backImage;
+            this.like = like;
+            this.review = review;
+            this.greenScore = greenScore;
+            this.state = state;
+            this.sale = sale.toString();
+        }
     }
     @Getter
     @Setter
@@ -38,7 +47,7 @@ public class StoreDto {
         private String rest;
 
         public Spec(String name, String category, String backImage, int like, int review, double greenScore, String state,
-                    String sale, String address, String tel, LocalTime open, LocalTime end, String rest) {
+                    LocalTime sale, String address, String tel, LocalTime open, LocalTime end, String rest) {
             super(name, category, backImage, like, review, greenScore, state, sale);
             this.address = address;
             this.tel = tel;
