@@ -18,6 +18,12 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: keypass
+
+  elasticsearch:
+    uris: http://localhost:9200
+    username: elastic
+    password: A-FVau_7sQPWvxSEnn7o
+
   security:
     oauth2:
       client:

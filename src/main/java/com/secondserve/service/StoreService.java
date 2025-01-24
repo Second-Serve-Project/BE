@@ -111,70 +111,62 @@ public class StoreService {
         return new StoreDto.XY(store.getName(),store.getBackImage(),store.getLike(),store.getGreenScore(),lat1,lon1,c*EARTH_RADIUS);
     }
 
-    public ApiResponse<List<StoreDto.Search>> getStoreSortGreenScore2KM(double lat, double lon) {
-
-        List<Store> storeList = storeRepository.findStoresWithin2Km(lat, lon);
-        List<StoreDto.Search> storeDtoList = new ArrayList<>();
-        storeList.sort(Comparator.comparingDouble(Store::getGreenScore).reversed());
-
-        for (Store store : storeList) {
-            StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
-            storeDto.setGreenScore(Double.toString(store.getGreenScore()));
-            storeDtoList.add(storeDto);
-        }
-
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
-    }
-
-    public ApiResponse<List<StoreDto.Search>> getStoreSortGreenScore() {
-
-        List<Store> storeList = storeRepository.findAll();
-        List<StoreDto.Search> storeDtoList = new ArrayList<>();
-        storeList.sort(Comparator.comparingDouble(Store::getGreenScore).reversed());
-
-        for (Store store : storeList) {
-            StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
-            storeDto.setGreenScore(Double.toString(store.getGreenScore()));
-            storeDtoList.add(storeDto);
-        }
-
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
-    }
-    public ApiResponse<List<StoreDto.XY>> getStoreSortDistance(double lat, double lon) {
-
-        List<Store> storeList = storeRepository.findAll();
-
-        List<StoreDto.XY> storeDtoList = new ArrayList<>();
-        for (Store store : storeList)
-        {
-            StoreDto.XY storeDto = DtoConverter.convertToDto(store, StoreDto.XY.class);
-            storeDto=calculateDistance(storeDto.getLat(),storeDto.getLon(),lat,lon);
-            storeDtoList.add(storeDto);
-        }
-        storeDtoList.sort(Comparator.comparingDouble(StoreDto.XY::getDistance));
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
-    }
-    public ApiResponse<List<StoreDto.XY>> getStoreSortDistance2KM(double lat, double lon) {
-
-        List<Store> storeList = storeRepository.findStoresWithin2Km(lat,lon);
-
-        List<StoreDto.XY> storeDtoList = new ArrayList<>();
-        for (Store store : storeList)
-        {
-            StoreDto.XY storeDto = DtoConverter.convertToDto(store, StoreDto.XY.class);
-            storeDto=calculateDistance(storeDto.getLat(),storeDto.getLon(),lat,lon);
-            storeDtoList.add(storeDto);
-        }
-        storeDtoList.sort(Comparator.comparingDouble(StoreDto.XY::getDistance));
-        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
-    }
-
-
-
-
-
-
-
-
+//    public ApiResponse<List<StoreDto.Search>> getStoreSortGreenScore2KM(double lat, double lon) {
+//
+//        List<Store> storeList = storeRepository.findStoresWithin2Km(lat, lon);
+//        List<StoreDto.Search> storeDtoList = new ArrayList<>();
+//        storeList.sort(Comparator.comparingDouble(Store::getGreenScore).reversed());
+//
+//        for (Store store : storeList) {
+//            StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
+//            storeDto.setGreenScore(Double.toString(store.getGreenScore()));
+//            storeDtoList.add(storeDto);
+//        }
+//
+//        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+//    }
+//
+//    public ApiResponse<List<StoreDto.Search>> getStoreSortGreenScore() {
+//
+//        List<Store> storeList = storeRepository.findAll();
+//        List<StoreDto.Search> storeDtoList = new ArrayList<>();
+//        storeList.sort(Comparator.comparingDouble(Store::getGreenScore).reversed());
+//
+//        for (Store store : storeList) {
+//            StoreDto.Search storeDto = DtoConverter.convertToDto(store, StoreDto.Search.class);
+//            storeDto.setGreenScore(Double.toString(store.getGreenScore()));
+//            storeDtoList.add(storeDto);
+//        }
+//
+//        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+//    }
+//    public ApiResponse<List<StoreDto.XY>> getStoreSortDistance(double lat, double lon) {
+//
+//        List<Store> storeList = storeRepository.findAll();
+//
+//        List<StoreDto.XY> storeDtoList = new ArrayList<>();
+//        for (Store store : storeList)
+//        {
+//            StoreDto.XY storeDto = DtoConverter.convertToDto(store, StoreDto.XY.class);
+//            storeDto=calculateDistance(storeDto.getLat(),storeDto.getLon(),lat,lon);
+//            storeDtoList.add(storeDto);
+//        }
+//        storeDtoList.sort(Comparator.comparingDouble(StoreDto.XY::getDistance));
+//        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+//    }
+//    public ApiResponse<List<StoreDto.XY>> getStoreSortDistance2KM(double lat, double lon) {
+//
+//        List<Store> storeList = storeRepository.findStoresWithin2Km(lat,lon);
+//
+//        List<StoreDto.XY> storeDtoList = new ArrayList<>();
+//        for (Store store : storeList)
+//        {
+//            StoreDto.XY storeDto = DtoConverter.convertToDto(store, StoreDto.XY.class);
+//            storeDto=calculateDistance(storeDto.getLat(),storeDto.getLon(),lat,lon);
+//            storeDtoList.add(storeDto);
+//        }
+//        storeDtoList.sort(Comparator.comparingDouble(StoreDto.XY::getDistance));
+//        return ApiResponse.fromResultStatus(ResultStatus.SUCCESS_STORE_SEARCH, storeDtoList);
+//    }
 
 }

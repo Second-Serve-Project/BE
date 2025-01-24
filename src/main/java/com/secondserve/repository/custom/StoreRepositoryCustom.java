@@ -19,5 +19,6 @@ public interface StoreRepositoryCustom {
     List<StoreDto.Recent> findByIds(List<Long> storeIds);
 
     List<StoreDto.Sale> findBySaleTimeBefore(LocalTime time);
+
 }
 

@@ -1,6 +1,7 @@
 package com.secondserve.repository.impl;
 
 
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
@@ -67,6 +68,7 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
         if (searchRequest.getAddress() != null) condition = condition.and(containsIgnoreCase(store.address, searchRequest.getAddress()));
         if (searchRequest.getLat() != null && searchRequest.getLon() != null) condition = condition.and(withinDistance(searchRequest.getLat(), searchRequest.getLon()));
 
+        OrderSpecifier<?> orderSpecifier = getOrderSpecifier(searchRequest); // 정렬 기준 추가.
         return queryFactory
                 .select(Projections.constructor(StoreDto.Search.class,
                         store.name,
@@ -80,9 +82,31 @@ public class StoreRepositoryCustomImpl implements StoreRepositoryCustom {
                 ))
                 .from(store)
                 .where(condition)
+                .orderBy(orderSpecifier)
                 .fetch();
     }
 
+
+    private OrderSpecifier<?> getOrderSpecifier(SearchRequest searchRequest){
+        switch (searchRequest.getSortBy()){
+            case "scoreDesc":
+                return store.greenScore.desc();
+            case "distanceAsc":
+                // 거리 계산 SQL 함수 활용
+                if (searchRequest.getLat() != null && searchRequest.getLon() != null) {
+                    return Expressions.numberTemplate(Double.class,
+                            "ST_Distance_Sphere(point({0}, {1}), point({2}, {3}))",
+                            store.lon, store.lat, searchRequest.getLon(), searchRequest.getLat()
+                    ).asc();
+                } else {
+                    throw new IllegalArgumentException("거리 정렬에는 기준 위도와 경도가 필요합니다.");
+                }
+            case null:
+                return Expressions.stringTemplate("function('RAND')").asc();
+            default:
+                throw new IllegalArgumentException("유효하지 않은 정렬 기준입니다: " + searchRequest.getSortBy());
+        }
+    }
 
 
     private BooleanExpression containsIgnoreCase(StringPath path, String value) {
